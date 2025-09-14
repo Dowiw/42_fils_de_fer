@@ -38,7 +38,7 @@ $(NAME): $(O_FILES)
 	@ar rcs $(NAME) $(O_FILES)
 
 bonus: $(O_FILES) $(O_BONUS)
-	@echo "Creating libft.a library..."
+	@echo "Creating libft library..."
 	@ar rcs $(NAME) $(O_FILES) $(O_BONUS)
 
 %.o: %.c
