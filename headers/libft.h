@@ -21,6 +21,8 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
+char	*get_next_line(int fd);
+
 //Mandatory Functions
 
 int		ft_isalnum(int c);
