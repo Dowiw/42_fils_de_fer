@@ -10,89 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "fils_de_fer.h"
-
-/**
- * - Checks if av[1] is in valid .fdf format
- * - Prints out respective errors
- * - filepath should be below 256 by default
- */
-static int	is_valid_format(char *filepath)
-{
-	int	len;
-
-	len = 0;
-	while (filepath[len] != '\0')
-		len++;
-	if (len > 255)
-		return (write(2, "Filepath too large\n", 20), 0);
-	if (len < 4)
-		return (write(2, "Filepath too short\n", 20), 0);
-	if (filepath[len - 4] == '.'
-		&& filepath[len - 3] == 'f'
-		&& filepath[len - 2] == 'd'
-		&& filepath[len - 1] == 'f')
-		return (1);
-	return (write(2, "Error: file is not in .fdf format\n", 35), 0);
-}
-
-/**
- * - Function to parse the file into a map in memory
- */
-t_map	parse_map(char *filepath)
-{
-	t_map map = {0};
-	int fd = open(filepath, O_RDONLY);
-	if (fd == -1)
-	{ perror("Cannot open file"); exit(EXIT_FAILURE); }
-
-	// pass: width and height
-	char	*line;
-	size_t	width = 0, height = 0;
-	while ((line = get_next_line(fd)))
-	{
-		if (height == 0)
-		{
-			char	**tokens = ft_split(line, ' ');
-			while (tokens[width])
-				width++;
-			for (size_t i = 0; tokens[i]; i++) free(tokens[i]);
-			free(tokens);
-		}
-		height++;
-		free(line);
-	}
-	close (fd);
-
-	// second pass: allocate map based on size
-	map.width = width;
-	map.height = height;
-	map.points = malloc(height * sizeof(t_point *));
-	for (size_t i = 0; i < height; i++)
-		map.points[i] = malloc(width * sizeof(t_point));
-	fd = open(filepath, O_RDONLY);
-	if (fd == -1)
-	{ perror("Cannot open file"); exit(EXIT_FAILURE); }
-	size_t row = 0;
-	while ((line = get_next_line(fd)))
-	{
-		char **tokens = ft_split(line, ' ');
-		for (size_t col = 0; col < width; col++)
-		{
-			map.points[row][col].x = col;
-			map.points[row][col].z = ft_atoi(tokens[col]);
-			map.points[row][col].y = row;
-			map.points[row][col].color = 0xFFFFFF;
-			free(tokens[col]);
-		}
-		free(tokens);
-		free(line);
-		row++;
-	}
-	close(fd);
-	return (map);
-}
+#include "libft.h"
 
 typedef struct s_2d {
 	int x;
@@ -139,9 +58,9 @@ void draw_line(t_mlx *mlx, t_2d a, t_2d b, int color)
  */
 void draw_map(const t_map *map, t_mlx *mlx)
 {
-	for (size_t y = 0; y < map->height; y++)
+	for (int y = 0; y < map->height; y++)
 	{
-		for (size_t x = 0; x < map->width; x++)
+		for (int x = 0; x < map->width; x++)
 		{
 			t_2d p = project_point(x, y, map->points[y][x].z);
 			if (x + 1 < map->width)
@@ -158,47 +77,33 @@ void draw_map(const t_map *map, t_mlx *mlx)
 	}
 }
 
-int	handle_key(int keycode, void *param)
-{
-	if (keycode == XK_Escape)
-		exit(1);
-	return (0);
-}
-
 /**
  * - Main (assumes maps are in correct format)
  */
 int main(int ac, char **av)
 {
-	t_map	map;
-	t_mlx	mlx;
+	t_fdf_data	data;
 
 	if (ac != 2 || !is_valid_format(av[1]))
 		return (write(2 ,"Usage: ./fdf <valid file in .fdf format>\n", 42), 1);
-	map = parse_map(av[1]);
+	if (!parse_map(av[1], &data.map))
+		return (1);
 
 	// print map for debug
-	for (size_t i = 0; i < map.height; i++)
+	for (int i = 0; i < data.map.height; i++)
 	{
-		printf("row %zu: ", i);
-		for (size_t j = 0; j < map.width; j++)
-			printf(": %i,%i,%i :", map.points[i][j].x, map.points[i][j].y, map.points[i][j].z);
+		printf("row %i: ", i);
+		for (int j = 0; j < data.map.width; j++)
+			printf(": %i,%i,%i :", data.map.points[i][j].x, data.map.points[i][j].y, data.map.points[i][j].z);
 		printf("\n");
 	}
-
-	mlx.mlx_ptr = mlx_init();
-	mlx.win_ptr = mlx_new_window(mlx.mlx_ptr, WIN_W, WIN_H, "Fil de Fer");
-
-	mlx.img_ptr = mlx_new_image(mlx.mlx_ptr, WIN_W, WIN_H);
-	mlx.img_data = mlx_get_data_addr(mlx.img_ptr, mlx.bpp, mlx.size_line, mlx.endian);
-
-	draw_map(&map, &mlx); // draw angles in isometric projection using pixels
-
-	mlx_key_hook(mlx.win_ptr, handle_key, NULL); // handle keys (first do ESC)
-	mlx_loop(mlx.mlx_ptr);
-
-	// eventually put to a separate function
-	mlx_destroy_window(mlx.mlx_ptr, mlx.win_ptr);
-	mlx_destroy_display(mlx.mlx_ptr); // very important frees for 0 leaks
-	free(mlx.mlx_ptr);
+	if (!init_mlx_lib(&data.mlx))
+	{
+		free_map(&data.map);
+		perror("Error: failed initializing library");
+		return (1);
+	}
+	mlx_key_hook(data.mlx.win_ptr, handle_key, &data); // handle keys (first do ESC)
+	mlx_hook(data.mlx.win_ptr, 17, 0, handle_close, &data);
+	mlx_loop(data.mlx.mlx_ptr);
 }
