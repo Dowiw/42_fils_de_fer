@@ -12,7 +12,7 @@
 
 NAME = fdf
 CC = gcc
-C_FLAGS = -Wall -Werror -Wextra
+C_FLAGS = -Wall -Werror -Wextra -g
 
 SRC_DIR = ./src
 LIBFT = $(SRC_DIR)/libft/libft.a
@@ -20,14 +20,16 @@ LIBFT = $(SRC_DIR)/libft/libft.a
 MLX_DIR = ./mlx
 MLX_FLAGS = -I$(MLX_DIR) -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lbsd
 
-C_FILES = main.c
+C_FILES = main.c parse.c initializers.c free.c \
+		events.c
+
 SRC = $(addprefix $(SRC_DIR)/, $(C_FILES))
 
 OBJ = $(SRC:.c=.o)
 
 INCLUDES = ./headers
 
-#  -- Rules start here --
+#  -- Rules  --
 all: $(LIBFT) $(NAME)
 
 $(LIBFT):
@@ -45,8 +47,9 @@ clean:
 	@echo "Deleting object files in fdf..."
 	@rm -f $(OBJ)
 
-fclean: clean
+fclean:
 	@make -C ./src/libft fclean
+	@echo "Deleting object files in fdf..."
 	@echo "Deleting all binaries in fdf..."
 	@rm -f $(NAME)
 	@rm -f $(OBJ)
