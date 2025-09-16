@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef FILS_DE_FER_H
+# define FILS_DE_FER_H
+
 #include <mlx.h> // minilibx library
 
 #include <math.h> // sin, cos, tan, etc.
@@ -38,8 +41,8 @@ typedef struct s_point
 // structure to store point data and render values
 typedef struct s_map
 {
-	size_t	width;
-	size_t	height;
+	int		width;
+	int		height;
 	t_point	**points;
 }			t_map;
 
@@ -55,5 +58,35 @@ typedef struct s_mlx
 	int		endian;
 }			t_mlx;
 
+typedef struct s_fdf_data
+{
+	t_mlx	mlx;
+	t_map	map;
+}			t_fdf_data;
+
 #define	WIN_W 800
 #define	WIN_H 800
+
+// events.c
+
+int	handle_key(int keycode, t_fdf_data *data);
+int	handle_close(t_fdf_data *data);
+
+// free.c
+
+void	free_map(t_map *map);
+void	free_data(t_fdf_data *data);
+
+// initializers.c
+
+int		init_mlx_lib(t_mlx *mlx);
+int		input_points(int file_fd, t_map *map);
+void	init_map(t_map *map);
+void	init_mlx(t_mlx *mlx);
+
+// parse.c
+
+int	is_valid_format(char *filepath);
+int	parse_map(char *filepath, t_map *map);
+
+#endif
