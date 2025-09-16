@@ -21,6 +21,8 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
+//Additional Functions
+
 char	*get_next_line(int fd);
 
 //Mandatory Functions
