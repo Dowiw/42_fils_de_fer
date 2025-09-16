@@ -85,14 +85,26 @@ void	init_mlx(t_mlx *mlx)
 
 /**
  * - Extension of init_mlx_lib to put image data
+ * - Frees things if NULL is returned
  */
-void	put_img_data(t_mlx *mlx, int *bpp, int *size_line, int *endian)
+int	put_img_data(t_mlx *mlx, int *bpp, int *size_line, int *endian)
 {
 	mlx->img_data = mlx_get_data_addr(mlx->img_ptr, bpp, size_line, endian);
+	if (!mlx->img_data)
+	{
+		mlx_destroy_image(mlx->mlx_ptr, mlx->img_ptr);
+		mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
+		mlx_destroy_display(mlx->mlx_ptr);
+		free(mlx->mlx_ptr);
+		write(2, "Error: mlx_get_data_addr failed\n", 33);
+		return (0);
+	}
+	return (1);
 }
 
 /**
  * - Initializes the library into the struct
+ * - Also attaches the used event hooks to the window
  */
 int	init_mlx_lib(t_mlx *mlx)
 {
@@ -114,5 +126,7 @@ int	init_mlx_lib(t_mlx *mlx)
 		free(mlx->mlx_ptr);
 		return (0);
 	}
-	put_img_data(mlx, &mlx->bpp, &mlx->size_line, &mlx->endian);
+	if (!put_img_data(mlx, &mlx->bpp, &mlx->size_line, &mlx->endian))
+		return (0);
+	return (1);
 }
