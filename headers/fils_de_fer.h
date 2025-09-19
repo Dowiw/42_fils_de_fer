@@ -29,12 +29,28 @@
 
 #include <stdio.h>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
+// enumeration of events that are represented in mlx
+typedef enum e_event
+{
+	EVENT_KEY_PRESS = 2,
+	EVENT_KEY_RELEASE = 3,
+	EVENT_MOUSE_PRESS = 4,
+	EVENT_MOUSE_RELEASE = 5,
+	EVENT_MOUSE_MOVE = 6,
+	EVENT_EXPOSE = 12,
+	EVENT_DESTROY = 17
+}	t_event;
+
 // each point in the map
 typedef struct s_point
 {
-	int	x;
-	int	y;
-	int	z;
+	int	x; // abscissa
+	int	y; // ordinate
+	int	z; // altitude
 	int	color; // hex value in decimal
 }		t_point;
 
@@ -43,6 +59,10 @@ typedef struct s_map
 {
 	int		width;
 	int		height;
+	double	z_scale; // scale of magnitude for z value
+	double	rot_x; // angle of rotation for X
+	double	rot_y; // angle of rotation for y
+	double	rot_z; // angle of rotation for z
 	t_point	**points;
 }			t_map;
 
@@ -64,22 +84,28 @@ typedef struct s_fdf_data
 	t_map	map;
 }			t_fdf_data;
 
-#define	WIN_W 800
-#define	WIN_H 800
+#define	WIN_W 1000
+#define	WIN_H 1000
 
 // events.c
 
-int	handle_key(int keycode, t_fdf_data *data);
-int	handle_close(t_fdf_data *data);
+int		handle_key(int keycode, t_fdf_data *data);
+int		handle_close(t_fdf_data *data);
+void	init_mlx_events(t_fdf_data *data);
 
 // free.c
 
 void	free_map(t_map *map);
 void	free_data(t_fdf_data *data);
 
+// graphics.c
+
+void	draw_map(t_fdf_data *data);
+void 	clear_image(t_mlx *mlx);
+
 // initializers.c
 
-int		init_mlx_lib(t_mlx *mlx);
+int		init_mlx_lib(t_mlx *mlx, t_fdf_data *data);
 int		input_points(int file_fd, t_map *map);
 void	init_map(t_map *map);
 void	init_mlx(t_mlx *mlx);

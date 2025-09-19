@@ -22,6 +22,24 @@ int	handle_key(int keycode, t_fdf_data *data)
 		free_data(data);
 		exit(EXIT_FAILURE);
 	}
+	else if (keycode == XK_minus)
+		data->map.z_scale -= 0.1;
+	else if (keycode == XK_equal)
+		data->map.z_scale += 0.1;
+	else if (keycode == XK_Left)
+		data->map.rot_z -= 0.1;
+	else if (keycode == XK_Right)
+		data->map.rot_z += 0.1;
+	else if (keycode == XK_w)
+		data->map.rot_x += 0.1;
+	else if (keycode == XK_s)
+		data->map.rot_x -= 0.1;
+	else if (keycode == XK_a)
+		data->map.rot_y += 0.1;
+	else if (keycode == XK_d)
+		data->map.rot_y -= 0.1;
+	clear_image(&data->mlx);
+	draw_map(data);
 	return (0);
 }
 
@@ -35,6 +53,13 @@ int	handle_close(t_fdf_data *data)
 	return (0);
 }
 
+int	expose_handler(t_fdf_data *data)
+{
+	clear_image(&data->mlx);
+	draw_map(data);
+	return (0);
+}
+
 /**
  * - Initializer of events into the window
  */
@@ -42,4 +67,5 @@ void	init_mlx_events(t_fdf_data *data)
 {
 	mlx_key_hook(data->mlx.win_ptr, handle_key, data);
 	mlx_hook(data->mlx.win_ptr, EVENT_DESTROY, 0, handle_close, data);
+	mlx_hook(data->mlx.win_ptr, EVENT_EXPOSE, 1L<<15, expose_handler, data);
 }

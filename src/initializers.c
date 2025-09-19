@@ -32,6 +32,10 @@ void	init_map(t_map *map)
 {
 	map->height = 0;
 	map->width = 0;
+	map->z_scale = 1.0;
+	map->rot_x = 0.0;
+	map->rot_y = 0.0;
+	map->rot_z = 0.0;
 	map->points = NULL;
 }
 
@@ -105,9 +109,11 @@ int	put_img_data(t_mlx *mlx, int *bpp, int *size_line, int *endian)
 /**
  * - Initializes the library into the struct
  * - Also attaches the used event hooks to the window
+ * - NOTE: data is only for key events
  */
-int	init_mlx_lib(t_mlx *mlx)
+int	init_mlx_lib(t_mlx *mlx, t_fdf_data *data)
 {
+	init_mlx(mlx);
 	mlx->mlx_ptr = mlx_init();
 	if (!mlx->mlx_ptr)
 		return (0);
@@ -128,5 +134,6 @@ int	init_mlx_lib(t_mlx *mlx)
 	}
 	if (!put_img_data(mlx, &mlx->bpp, &mlx->size_line, &mlx->endian))
 		return (0);
+	init_mlx_events(data);
 	return (1);
 }
