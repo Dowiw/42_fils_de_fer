@@ -35,6 +35,11 @@ void	put_pixel(t_mlx *mlx, int x, int y, int color)
 
 /**
  * - TODO: add reference and info
+ *
+ * @param x the abscissa
+ * @param y the ordinate
+ * @param z the altitude
+ * @param map_data data of rotations and scaling
  */
 t_2d calc_isometric(t_map *map_data, int x, int y, int z)
 {
@@ -80,9 +85,8 @@ void clear_image(t_mlx *mlx)
 }
 
 /**
+ * NOTE: https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
  * - Bresenham's algorithm in plain code
- *
- * EXPLANATION: https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
  */
 void	draw_bresenham_line(t_mlx *mlx, t_2d start, t_2d end, int color)
 {
@@ -121,9 +125,9 @@ void	draw_bresenham_line(t_mlx *mlx, t_2d start, t_2d end, int color)
  */
 void draw_map(t_fdf_data *data)
 {
-	t_2d	point;
-	t_2d	point_right;
-	t_2d	point_down;
+	t_2d		point;
+	t_2d		point_right;
+	t_2d		point_down;
 	int		i;
 	int		j;
 
@@ -133,15 +137,15 @@ void draw_map(t_fdf_data *data)
 		j = 0;
 		while (j < data->map.width)
 		{
-			point = calc_isometric(&data->map, data->map.points[i][j].x, data->map.points[i][j].y, data->map.points[i][j].z);
+			point = calc_isometric(&data->map, i, j, data->map.z_values[i][j]);
 			if (j + 1 < data->map.width)
 			{
-				point_right = calc_isometric(&data->map, data->map.points[i][j+1].x, data->map.points[i][j+1].y, data->map.points[i][j+1].z);
+				point_right = calc_isometric(&data->map, i, j + 1, data->map.z_values[i][j + 1]);
 				draw_bresenham_line(&data->mlx, point, point_right, 0x00FF00);
 			}
 			if (i + 1 < data->map.height)
 			{
-				point_down = calc_isometric(&data->map, data->map.points[i+1][j].x, data->map.points[i+1][j].y, data->map.points[i+1][j].z);
+				point_down = calc_isometric(&data->map, i + 1, j, data->map.z_values[i + 1][j]);
 				draw_bresenham_line(&data->mlx, point, point_down, 0xFF0000);
 			}
 			j++;

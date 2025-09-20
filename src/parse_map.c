@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kmonjard <kmonjard@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -94,6 +94,38 @@ static void	get_map_size(int file_fd, t_map *map)
 }
 
 /**
+ * - Allocates colors array
+ */
+static int	allocate_colors(t_map *map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	map->colors = malloc(map->height * sizeof(int *));
+	if (!map->colors)
+	{
+		perror("Array height color allocation error");
+		return (0);
+	}
+	while (i < map->height)
+	{
+		map->colors[i] = malloc(map->width * sizeof(int));
+		if (!map->colors[i])
+		{
+			j = 0;
+			while (j < i)
+				free(map->colors[j++]);
+			free(map->colors);
+			perror("Array width color allocation error");
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
+/**
  * - Function responsible for allocating size into the points array
  * - Checks for malloc fails and frees everything
  */
@@ -103,27 +135,27 @@ static int	allocate_and_input(int file_fd, t_map *map)
 	int	i;
 
 	i = 0;
-	map->points = malloc(map->height * sizeof(t_point *));
-	if (!map->points)
+	map->z_values = malloc(map->height * sizeof(int *));
+	if (!map->z_values)
 	{
-		perror("Map height allocation error");
+		perror("Array height z_values allocation error");
 		exit(EXIT_FAILURE);
 	}
 	while (i < map->height)
 	{
-		map->points[i] = malloc(map->width * sizeof(t_point));
-		if (!map->points[i])
+		map->z_values[i] = malloc(map->width * sizeof(int));
+		if (!map->z_values[i])
 		{
 			j = 0;
 			while (j < i)
-				free(map->points[j++]);
-			free(map->points);
-			perror("Map width allocation error");
+				free(map->z_values[j++]);
+			free(map->z_values);
+			perror("Array width z_values allocation error");
 			exit(EXIT_FAILURE);
 		}
 		i++;
 	}
-	return (input_points(file_fd, map));
+	return (allocate_colors(map) + input_points(file_fd, map));
 }
 
 /**
@@ -151,6 +183,8 @@ int	parse_map(char *filepath, t_map *map)
 		return (0);
 	}
 	exit = allocate_and_input(file_fd, map);
+	if (exit == 0 || exit == 1)
+		free_map(map);
 	close(file_fd);
 	return (exit);
 }

@@ -59,11 +59,13 @@ typedef struct s_map
 {
 	int		width;
 	int		height;
+	int		**z_values;
+	int		**colors;
+	double	map_scale;
 	double	z_scale; // scale of magnitude for z value
 	double	rot_x; // angle of rotation for X
 	double	rot_y; // angle of rotation for y
 	double	rot_z; // angle of rotation for z
-	t_point	**points;
 }			t_map;
 
 // structure for mlx data
@@ -84,8 +86,8 @@ typedef struct s_fdf_data
 	t_map	map;
 }			t_fdf_data;
 
-#define	WIN_W 1000
-#define	WIN_H 1000
+#define	WIN_W 1920
+#define	WIN_H 1080
 
 // events.c
 

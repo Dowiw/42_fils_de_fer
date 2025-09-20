@@ -19,10 +19,8 @@
  */
 void	put_datapoint(t_map *map, char *token, int row, int col)
 {
-	map->points[row][col].x = col;
-	map->points[row][col].y = row;
-	map->points[row][col].z = ft_atoi(token);
-	map->points[row][col].color = 0xFF0000;
+	map->z_values[row][col] = ft_atoi(token);
+	map->colors[row][col] = 0xFF0000;
 }
 
 /**
@@ -32,16 +30,18 @@ void	init_map(t_map *map)
 {
 	map->height = 0;
 	map->width = 0;
+	map->z_values = NULL;
+	map->colors = NULL;
 	map->z_scale = 1.0;
 	map->rot_x = 0.0;
 	map->rot_y = 0.0;
 	map->rot_z = 0.0;
-	map->points = NULL;
 }
 
 /**
  * - Put the data tokens of the file into the points structure in map
  * - Returns 0 if ft_split fails
+ * - Returns 1 if all good
  */
 int	input_points(int file_fd, t_map *map)
 {

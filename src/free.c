@@ -13,19 +13,27 @@
 #include "fils_de_fer.h"
 
 /**
- * - Frees the allocated points array inside map
+ * - Frees the allocated arrays inside map
  */
 void	free_map(t_map *map)
 {
 	int	i;
 
 	i = 0;
-	if (map->points)
+	if (map->z_values)
 	{
 		i = 0;
 		while (i < map->height)
-			free(map->points[i++]);
-		free(map->points);
+			free(map->z_values[i++]);
+		free(map->z_values);
+	}
+	i = 0;
+	if (map->colors)
+	{
+		i = 0;
+		while (i < map->height)
+			free(map->colors[i++]);
+		free(map->colors);
 	}
 }
 
