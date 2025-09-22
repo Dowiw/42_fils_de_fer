@@ -15,7 +15,7 @@
 /**
  * - Handle key inputs
  */
-int	handle_key(int keycode, t_fdf_data *data)
+static int	handle_key(int keycode, t_fdf_data *data)
 {
 	if (keycode == XK_Escape)
 	{
@@ -38,7 +38,6 @@ int	handle_key(int keycode, t_fdf_data *data)
 		data->map.rot_y += 0.1;
 	else if (keycode == XK_d)
 		data->map.rot_y -= 0.1;
-	handle_more_keys();
 	clear_image(&data->mlx);
 	draw_map(data);
 	return (0);
@@ -47,14 +46,14 @@ int	handle_key(int keycode, t_fdf_data *data)
 /**
  * - Handle close (the x button)
  */
-int	handle_close(t_fdf_data *data)
+static int	handle_close(t_fdf_data *data)
 {
 	free_data(data);
 	exit(EXIT_SUCCESS);
 	return (0);
 }
 
-int	expose_handler(t_fdf_data *data)
+static int	expose_handler(t_fdf_data *data)
 {
 	clear_image(&data->mlx);
 	draw_map(data);

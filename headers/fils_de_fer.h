@@ -45,6 +45,13 @@ typedef enum e_event
 	EVENT_DESTROY = 17
 }	t_event;
 
+// structure to contain two pieces of data (x, y) of a pixel
+typedef struct s_pixel
+{
+	int	x;
+	int	y;
+}		t_pixel;
+
 // each point in the map
 typedef struct s_point
 {
@@ -61,6 +68,7 @@ typedef struct s_map
 	int		height;
 	int		**z_values;
 	int		**colors;
+	double	iso_angle;
 	double	map_scale;
 	double	z_scale; // scale of magnitude for z value
 	double	rot_x; // angle of rotation for X
@@ -80,19 +88,30 @@ typedef struct s_mlx
 	int		endian;
 }			t_mlx;
 
+// structure for fdf data
 typedef struct s_fdf_data
 {
 	t_mlx	mlx;
 	t_map	map;
 }			t_fdf_data;
 
+// window sizes
+
 #define	WIN_W 1920
 #define	WIN_H 1080
 
+// allocate.c
+
+int	allocate_and_input(int file_fd, t_map *map);
+
+// calculate.c
+
+t_pixel	calc_isometric(t_map *map_data, int x, int y, int z);
+void	draw_bresenham_line(t_mlx *mlx, t_pixel start, t_pixel end, int color);
+void	init_angles(t_map *map);
+
 // events.c
 
-int		handle_key(int keycode, t_fdf_data *data);
-int		handle_close(t_fdf_data *data);
 void	init_mlx_events(t_fdf_data *data);
 
 // free.c
@@ -103,18 +122,20 @@ void	free_data(t_fdf_data *data);
 // graphics.c
 
 void	draw_map(t_fdf_data *data);
-void 	clear_image(t_mlx *mlx);
+void	clear_image(t_mlx *mlx);
+void	put_pixel(t_mlx *mlx, int x, int y, int color);
 
 // initializers.c
 
+void	put_datapoint(t_map *map, char *token, int row, int col);
 int		init_mlx_lib(t_mlx *mlx, t_fdf_data *data);
-int		input_points(int file_fd, t_map *map);
 void	init_map(t_map *map);
 void	init_mlx(t_mlx *mlx);
 
-// parse.c
+// parse_map.c
 
 int	is_valid_format(char *filepath);
+int	input_points(int file_fd, t_map *map);
 int	parse_map(char *filepath, t_map *map);
 
 #endif

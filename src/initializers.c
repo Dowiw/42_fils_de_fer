@@ -33,43 +33,10 @@ void	init_map(t_map *map)
 	map->z_values = NULL;
 	map->colors = NULL;
 	map->z_scale = 1.0;
+	map->iso_angle = 0.0;
 	map->rot_x = 0.0;
 	map->rot_y = 0.0;
 	map->rot_z = 0.0;
-}
-
-/**
- * - Put the data tokens of the file into the points structure in map
- * - Returns 0 if ft_split fails
- * - Returns 1 if all good
- */
-int	input_points(int file_fd, t_map *map)
-{
-	int		col;
-	int		row;
-	char	**tokens;
-	char	*line;
-
-	row = 0;
-	line = get_next_line(file_fd);
-	while (line != NULL)
-	{
-		col = 0;
-		tokens = ft_split(line, ' ');
-		if (!tokens)
-			return(free_map(map), 0);
-		while (col < map->width)
-		{
-			put_datapoint(map, tokens[col], row, col);
-			free(tokens[col]);
-			col++;
-		}
-		free(tokens);
-		free(line);
-		line = get_next_line(file_fd);
-		row++;
-	}
-	return (1);
 }
 
 /**
@@ -91,7 +58,7 @@ void	init_mlx(t_mlx *mlx)
  * - Extension of init_mlx_lib to put image data
  * - Frees things if NULL is returned
  */
-int	put_img_data(t_mlx *mlx, int *bpp, int *size_line, int *endian)
+static int	put_img_data(t_mlx *mlx, int *bpp, int *size_line, int *endian)
 {
 	mlx->img_data = mlx_get_data_addr(mlx->img_ptr, bpp, size_line, endian);
 	if (!mlx->img_data)
