@@ -68,7 +68,7 @@ typedef struct s_map
 	int		height;
 	int		**z_values;
 	int		**colors;
-	double	iso_angle;
+	double	angle;
 	double	map_scale;
 	double	z_scale; // scale of magnitude for z value
 	double	rot_x; // angle of rotation for X

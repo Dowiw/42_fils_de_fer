@@ -21,7 +21,7 @@ static int	handle_key(int keycode, t_fdf_data *data)
 	{
 		free_data(data);
 		exit(EXIT_FAILURE);
-	}
+	} // magnitutes of about 5.7 degrees
 	else if (keycode == XK_minus)
 		data->map.z_scale -= 0.1;
 	else if (keycode == XK_equal)

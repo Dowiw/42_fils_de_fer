@@ -1,80 +1,87 @@
 #include "fils_de_fer.h"
 
-/**
- * - TODO: add reference and info, add calculations on centering the pixel value,
- * 	and scaling it properly, and then add the window of instructions (maybe)
- *
- * @param x the abscissa
- * @param y the ordinate
- * @param z the altitude
- * @param map data of rotations, scaling and offset
- */
-t_pixel calc_isometric(t_map *map, int x, int y, int z)
+void	draw_line_high(t_mlx *mlx, t_pixel p0, t_pixel p1, int color)
 {
-	t_pixel	p;
-	double	scale = map->map_scale;
-	double	angle = map->iso_angle; // M_PI / 6
+	int	dx;
+	int	dy;
+	int	xi;
+	int	delta;
 
-	// Convert to double for math
-	double xd = (double)x;
-	double yd = (double)y;
-	double zd = (double)z * map->z_scale;
+	dx = p1.x - p0.x;
+	dy = p1.y - p0.y;
+	xi = 1;
+	if (dx < 0)
+	{
+		xi = -1;
+		dx = -dx;
+	}
+	delta = (2 *dx) - dy;
+	while (p0.y <= p1.y)
+	{
+		put_pixel(mlx, p0.x, (p0.y)++, color);
+		if (delta > 0)
+		{
+			p0.x += xi;
+			delta += (2 * (dx - dy));
+		}
+		else
+			delta += 2 * dx;
+	}
+}
 
-	// Apply rotation around X axis
-	double y1 = yd * cos(map->rot_x) - zd * sin(map->rot_x);
-	double z1 = yd * sin(map->rot_x) + zd * cos(map->rot_x);
+void	draw_line_low(t_mlx *mlx, t_pixel p0, t_pixel p1, int color)
+{
+	int	yi;
+	int	dx;
+	int	dy;
+	int	delta;
 
-	// Apply rotation around Y axis
-	double x2 = xd * cos(map->rot_y) + z1 * sin(map->rot_y);
-	double z2 = -xd * sin(map->rot_y) + z1 * cos(map->rot_y);
-
-	// Apply rotation around Z axis
-	double x3 = x2 * cos(map->rot_z) - y1 * sin(map->rot_z);
-	double y3 = x2 * sin(map->rot_z) + y1 * cos(map->rot_z);
-
-	// Isometric projection
-	double iso_x = (x3 - y3) * cos(angle);
-	double iso_y = -z2 + (x3 + y3) * sin(angle);
-
-	p.x = (int)(iso_x * scale + WIN_W / 2);
-	p.y = (int)(iso_y * scale + WIN_H / 2);
-	return p;
+	dx = p1.x - p0.x;
+	dy = p1.y - p0.y;
+	yi = 1;
+	if (dy < 0)
+	{
+		yi = -1;
+		dy = -dy;
+	}
+	delta = (2 * dy) - dx;
+	while (p0.x <= p1.x)
+	{
+		put_pixel(mlx, (p0.x)++, p0.y, color);
+		if (delta > 0)
+		{
+			p0.y += yi;
+			delta += (2 * (dy - dx));
+		}
+		else
+			delta += 2 * dy;
+	}
 }
 
 /**
- * NOTE: https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
- * - Bresenham's algorithm in plain code
+ * - Optimized form of the Bresenham Line Algorithm
  */
 void	draw_bresenham_line(t_mlx *mlx, t_pixel start, t_pixel end, int color)
 {
 	int	dx;
 	int	dy;
-	int	x_step;
-	int	y_step;
-	int	delta;
-	int	delta2;
 
 	dx = abs(end.x - start.x);
 	dy = abs(end.y - start.y);
-	x_step = (start.x < end.x) ? 1 : -1;
-	y_step = (start.y < end.y) ? 1 : -1;
-	delta = dx - dy; // delta variable decides which pixel is closest
-	while (start.x != end.x || start.y != end.y)
+	if (dy < dx)
 	{
-		put_pixel(mlx, start.x, start.y, color);
-		delta2 = 2 * delta;
-		if (delta2 > -dy)
-		{
-			delta -= dy;
-			start.x += x_step;
-		}
-		if (delta2 < dx)
-		{
-			delta += dx;
-			start.y += y_step;
-		}
+		if (start.x > end.x)
+			draw_line_low(mlx, end, start, color);
+		else
+			draw_line_low(mlx, start, end, color);
 	}
-	put_pixel(mlx, end.x, end.y, color); // draw the last point
+	else
+	{
+		if (start.y > end.y)
+			draw_line_high(mlx, end, start, color);
+		else
+			draw_line_high(mlx, start, end, color);
+	}
 }
 
 /**
@@ -82,6 +89,44 @@ void	draw_bresenham_line(t_mlx *mlx, t_pixel start, t_pixel end, int color)
  */
 void	init_angles(t_map *map)
 {
-	map->iso_angle = M_PI / 6;
+	map->angle = M_PI / 6;
 	map->map_scale = 20.0;
 }
+
+// /**
+//  * NOTE: https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
+//  * - Bresenham's algorithm in plain code
+//  * - This is one of the implementation examples on considering a principle on
+//  *	integer incremental error
+//  */
+// void	draw_bresenham_line(t_mlx *mlx, t_pixel start, t_pixel end, int color)
+// {
+// 	int	dx;
+// 	int	dy;
+// 	int	x_step;
+// 	int	y_step;
+// 	int	delta;
+// 	int	delta2;
+
+// 	dx = abs(end.x - start.x);
+// 	dy = abs(end.y - start.y);
+// 	x_step = (start.x < end.x) ? 1 : -1;
+// 	y_step = (start.y < end.y) ? 1 : -1;
+// 	delta = dx - dy;
+// 	while (start.x != end.x || start.y != end.y)
+// 	{
+// 		put_pixel(mlx, start.x, start.y, color);
+// 		delta2 = 2 * delta;
+// 		if (delta2 > -dy)
+// 		{
+// 			delta -= dy;
+// 			start.x += x_step;
+// 		}
+// 		if (delta2 < dx)
+// 		{
+// 			delta += dx;
+// 			start.y += y_step;
+// 		}
+// 	}
+// 	put_pixel(mlx, end.x, end.y, color); // draw the last point
+// }

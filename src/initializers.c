@@ -33,7 +33,7 @@ void	init_map(t_map *map)
 	map->z_values = NULL;
 	map->colors = NULL;
 	map->z_scale = 1.0;
-	map->iso_angle = 0.0;
+	map->angle = 0.0;
 	map->rot_x = 0.0;
 	map->rot_y = 0.0;
 	map->rot_z = 0.0;
