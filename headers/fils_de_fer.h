@@ -66,7 +66,7 @@ typedef struct s_map
 {
 	int		width;
 	int		height;
-	int		**z_values;
+	int		**z_arr;
 	int		**colors;
 	double	angle;
 	double	map_scale;
@@ -106,7 +106,7 @@ int	allocate_and_input(int file_fd, t_map *map);
 
 // calculate.c
 
-t_pixel	calc_isometric(t_map *map_data, int x, int y, int z);
+t_pixel	calc_iso(t_map *map_data, int x, int y, int z);
 void	draw_bresenham_line(t_mlx *mlx, t_pixel start, t_pixel end, int color);
 void	init_angles(t_map *map);
 

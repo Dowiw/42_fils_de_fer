@@ -16,12 +16,12 @@
 /**
  * - Main (assumes maps are in correct format)
  */
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_fdf_data	data;
 
 	if (ac != 2 || !is_valid_format(av[1]))
-		return (write(2 ,"Usage: ./fdf <valid file in .fdf format>\n", 42), 1);
+		return (write(2, "Usage: ./fdf <valid file in .fdf format>\n", 42), 1);
 	if (!parse_map(av[1], &data.map))
 		return (1);
 	if (!init_mlx_lib(&data.mlx, &data))

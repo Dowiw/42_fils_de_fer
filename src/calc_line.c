@@ -15,7 +15,7 @@ void	draw_line_high(t_mlx *mlx, t_pixel p0, t_pixel p1, int color)
 		xi = -1;
 		dx = -dx;
 	}
-	delta = (2 *dx) - dy;
+	delta = (2 * dx) - dy;
 	while (p0.y <= p1.y)
 	{
 		put_pixel(mlx, p0.x, (p0.y)++, color);
@@ -86,6 +86,7 @@ void	draw_bresenham_line(t_mlx *mlx, t_pixel start, t_pixel end, int color)
 
 /**
  * - Initializes and calculates the angles for each perspective
+ * - pi / 6 being 30 degrees
  */
 void	init_angles(t_map *map)
 {

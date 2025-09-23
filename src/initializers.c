@@ -19,7 +19,7 @@
  */
 void	put_datapoint(t_map *map, char *token, int row, int col)
 {
-	map->z_values[row][col] = ft_atoi(token);
+	map->z_arr[row][col] = ft_atoi(token);
 	map->colors[row][col] = 0xFF0000;
 }
 
@@ -30,9 +30,10 @@ void	init_map(t_map *map)
 {
 	map->height = 0;
 	map->width = 0;
-	map->z_values = NULL;
+	map->z_arr = NULL;
 	map->colors = NULL;
 	map->z_scale = 1.0;
+	map->map_scale = 0.0;
 	map->angle = 0.0;
 	map->rot_x = 0.0;
 	map->rot_y = 0.0;

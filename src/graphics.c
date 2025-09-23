@@ -20,7 +20,7 @@ void	put_pixel(t_mlx *mlx, int x, int y, int color)
 	int	offset;
 
 	if (x < 0 || y < 0 || x >= WIN_W || y >= WIN_H)
-		return;
+		return ;
 	offset = (y * mlx->size_line) + (x * (mlx->bpp / 8));
 	*((unsigned int *)(mlx->img_data + offset)) = color;
 }
@@ -28,7 +28,7 @@ void	put_pixel(t_mlx *mlx, int x, int y, int color)
 /**
  * - Empties out the image buffer
  */
-void clear_image(t_mlx *mlx)
+void	clear_image(t_mlx *mlx)
 {
 	int	i;
 	int	j;
@@ -47,13 +47,34 @@ void clear_image(t_mlx *mlx)
 }
 
 /**
- * - Manually draw the pixels of the map
+ * - A helper to calculate the points of each row and col as iso_angles
+ * - Using bresenham's algorithm to draw the line along the pixels
  */
-void draw_map(t_fdf_data *data)
+static void	draw_points_and_lines(t_map *map, t_mlx *mlx, int row, int col)
 {
 	t_pixel	point;
 	t_pixel	point_right;
 	t_pixel	point_down;
+
+	point = calc_iso(map, col, row, map->z_arr[row][col]);
+	if (col + 1 < map->width)
+	{
+		point_right = calc_iso(map, col + 1, row, map->z_arr[row][col + 1]);
+		draw_bresenham_line(mlx, point, point_right, 0xFFFFFF);
+	}
+	if (row + 1 < map->height)
+	{
+		point_down = calc_iso(map, col, row + 1, map->z_arr[row + 1][col]);
+		draw_bresenham_line(mlx, point, point_down, 0xFFFFFF);
+	}
+}
+
+/**
+ * - Manually draw the pixels of the map
+ */
+void	draw_map(t_fdf_data *data)
+{
+	t_mlx	*mlx;
 	int		i;
 	int		j;
 
@@ -63,20 +84,11 @@ void draw_map(t_fdf_data *data)
 		j = 0;
 		while (j < data->map.width)
 		{
-			point = calc_isometric(&data->map, j, i, data->map.z_values[i][j]);
-			if (j + 1 < data->map.width)
-			{
-				point_right = calc_isometric(&data->map, j + 1, i, data->map.z_values[i][j + 1]);
-				draw_bresenham_line(&data->mlx, point, point_right, 0x00FF00);
-			}
-			if (i + 1 < data->map.height)
-			{
-				point_down = calc_isometric(&data->map, j, i + 1, data->map.z_values[i + 1][j]);
-				draw_bresenham_line(&data->mlx, point, point_down, 0xFF0000);
-			}
+			draw_points_and_lines(&data->map, &data->mlx, i, j);
 			j++;
 		}
 		i++;
 	}
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.win_ptr, data->mlx.img_ptr, 0, 0);
+	mlx = &data->mlx;
+	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img_ptr, 0, 0);
 }

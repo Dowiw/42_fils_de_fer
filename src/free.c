@@ -20,12 +20,12 @@ void	free_map(t_map *map)
 	int	i;
 
 	i = 0;
-	if (map->z_values)
+	if (map->z_arr)
 	{
 		i = 0;
 		while (i < map->height)
-			free(map->z_values[i++]);
-		free(map->z_values);
+			free(map->z_arr[i++]);
+		free(map->z_arr);
 	}
 	i = 0;
 	if (map->colors)

@@ -67,7 +67,7 @@ static void	calc_rotations(t_map *map, double *x, double *y, double *z)
  * @param z the altitude
  * @param map data of rotations, scaling and offset
  */
-t_pixel calc_isometric(t_map *map, int x, int y, int z)
+t_pixel	calc_iso(t_map *map, int x, int y, int z)
 {
 	t_pixel	p;
 	double	final_x;

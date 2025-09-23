@@ -56,7 +56,7 @@ int	input_points(int file_fd, t_map *map)
 		col = 0;
 		tokens = ft_split(line, ' ');
 		if (!tokens)
-			return(free_map(map), 0);
+			return (free_map(map), 0);
 		while (col < map->width)
 		{
 			put_datapoint(map, tokens[col], row, col);

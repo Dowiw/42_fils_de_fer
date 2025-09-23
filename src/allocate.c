@@ -42,22 +42,22 @@ int	allocate_and_input(int file_fd, t_map *map)
 	int	i;
 
 	i = 0;
-	map->z_values = malloc(map->height * sizeof(int *));
-	if (!map->z_values)
+	map->z_arr = malloc(map->height * sizeof(int *));
+	if (!map->z_arr)
 	{
-		perror("Array height z_values allocation error");
+		perror("Array height z_arr allocation error");
 		exit(EXIT_FAILURE);
 	}
 	while (i < map->height)
 	{
-		map->z_values[i] = malloc(map->width * sizeof(int));
-		if (!map->z_values[i])
+		map->z_arr[i] = malloc(map->width * sizeof(int));
+		if (!map->z_arr[i])
 		{
 			j = 0;
 			while (j < i)
-				free(map->z_values[j++]);
-			free(map->z_values);
-			perror("Array width z_values allocation error");
+				free(map->z_arr[j++]);
+			free(map->z_arr);
+			perror("Array width z_arr allocation error");
 			exit(EXIT_FAILURE);
 		}
 		i++;
