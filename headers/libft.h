@@ -24,6 +24,7 @@ typedef struct s_list
 //Additional Functions
 
 char	*get_next_line(int fd);
+int		ft_strtol_hex(const char *s);
 
 //Mandatory Functions
 
