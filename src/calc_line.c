@@ -1,6 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   calc_line.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kmonjard <kmonjard@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/25 09:15:36 by kmonjard          #+#    #+#             */
+/*   Updated: 2025/09/25 09:15:37 by kmonjard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fils_de_fer.h"
 
-void	draw_line_high(t_mlx *mlx, t_pixel p0, t_pixel p1, int color)
+static int	determine_color_low(t_pixel p0, t_pixel p1, t_pixel start_p)
+{
+	int		color;
+	double	ratio;
+
+	ratio = (p0.x - start_p.x) / (double)(p1.x - start_p.x);
+	color = interpolate_color(start_p.color, p1.color, ratio);
+	return (color);
+}
+
+static int	determine_color_high(t_pixel p0, t_pixel p1, t_pixel start_p)
+{
+	int		color;
+	double	ratio;
+
+	ratio = (p0.y - start_p.y) / (double)(p1.y - start_p.y);
+	color = interpolate_color(start_p.color, p1.color, ratio);
+	return (color);
+}
+
+static void	draw_line_high(t_mlx *mlx, t_pixel p0, t_pixel p1, t_pixel start_p)
 {
 	int	dx;
 	int	dy;
@@ -18,7 +50,7 @@ void	draw_line_high(t_mlx *mlx, t_pixel p0, t_pixel p1, int color)
 	delta = (2 * dx) - dy;
 	while (p0.y <= p1.y)
 	{
-		put_pixel(mlx, p0.x, (p0.y)++, color);
+		put_pixel(mlx, p0.x, (p0.y)++, determine_color_high(p0, p1, start_p));
 		if (delta > 0)
 		{
 			p0.x += xi;
@@ -29,7 +61,7 @@ void	draw_line_high(t_mlx *mlx, t_pixel p0, t_pixel p1, int color)
 	}
 }
 
-void	draw_line_low(t_mlx *mlx, t_pixel p0, t_pixel p1, int color)
+static void	draw_line_low(t_mlx *mlx, t_pixel p0, t_pixel p1, t_pixel start_p)
 {
 	int	yi;
 	int	dx;
@@ -47,7 +79,7 @@ void	draw_line_low(t_mlx *mlx, t_pixel p0, t_pixel p1, int color)
 	delta = (2 * dy) - dx;
 	while (p0.x <= p1.x)
 	{
-		put_pixel(mlx, (p0.x)++, p0.y, color);
+		put_pixel(mlx, (p0.x)++, p0.y, determine_color_low(p0, p1, start_p));
 		if (delta > 0)
 		{
 			p0.y += yi;
@@ -61,7 +93,7 @@ void	draw_line_low(t_mlx *mlx, t_pixel p0, t_pixel p1, int color)
 /**
  * - Optimized form of the Bresenham Line Algorithm
  */
-void	draw_bresenham_line(t_mlx *mlx, t_pixel start, t_pixel end, int color)
+void	draw_bresenham_line(t_mlx *mlx, t_pixel start, t_pixel end)
 {
 	int	dx;
 	int	dy;
@@ -71,27 +103,17 @@ void	draw_bresenham_line(t_mlx *mlx, t_pixel start, t_pixel end, int color)
 	if (dy < dx)
 	{
 		if (start.x > end.x)
-			draw_line_low(mlx, end, start, color);
+			draw_line_low(mlx, end, start, end);
 		else
-			draw_line_low(mlx, start, end, color);
+			draw_line_low(mlx, start, end, start);
 	}
 	else
 	{
 		if (start.y > end.y)
-			draw_line_high(mlx, end, start, color);
+			draw_line_high(mlx, end, start, end);
 		else
-			draw_line_high(mlx, start, end, color);
+			draw_line_high(mlx, start, end, start);
 	}
-}
-
-/**
- * - Initializes and calculates the angles for each perspective
- * - pi / 6 being 30 degrees
- */
-void	init_angles(t_map *map)
-{
-	map->angle = M_PI / 6;
-	map->map_scale = 20.0;
 }
 
 // /**
