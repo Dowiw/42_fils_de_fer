@@ -11,30 +11,22 @@
 /* ************************************************************************** */
 
 #include "fils_de_fer.h"
-#include "libft.h"
-
-/**
- * - Parses the data points into the respective point
- *  - TODO: add color parsing functionality
- */
-void	put_datapoint(t_map *map, char *token, int row, int col)
-{
-	map->z_arr[row][col] = ft_atoi(token);
-	map->colors[row][col] = 0xFF0000;
-}
 
 /**
  * - Initializes height and width to 0 and points to NULL
  */
 void	init_map(t_map *map)
 {
+	map->orth_view = 0;
 	map->height = 0;
 	map->width = 0;
 	map->z_arr = NULL;
 	map->colors = NULL;
+	map->offset_w = 0.0;
+	map->offset_h = 0.0;
 	map->z_scale = 1.0;
-	map->map_scale = 0.0;
-	map->angle = 0.0;
+	map->size = 0.0;
+	map->view = 0.0;
 	map->rot_x = 0.0;
 	map->rot_y = 0.0;
 	map->rot_z = 0.0;
@@ -53,6 +45,10 @@ void	init_mlx(t_mlx *mlx)
 	mlx->bpp = 0;
 	mlx->endian = 0;
 	mlx->size_line = 0;
+	mlx->pan_down = 0;
+	mlx->pan_left = 0;
+	mlx->pan_right = 0;
+	mlx->pan_up = 0;
 }
 
 /**
@@ -104,4 +100,26 @@ int	init_mlx_lib(t_mlx *mlx, t_fdf_data *data)
 		return (0);
 	init_mlx_events(data);
 	return (1);
+}
+
+/**
+ * - Initializes and calculates the angles for each perspective
+ * - pi / 6 being 30 degrees
+ */
+void	init_angles(t_map *map)
+{
+	int		mid_x;
+	int		mid_y;
+	t_pixel	center;
+
+	mid_x = (map->width - 1) / 2;
+	mid_y = (map->height - 1) / 2;
+	map->view = M_PI / 6;
+	map->offset_h = 0;
+	map->offset_w = 0;
+	map->size = 1.0;
+	map->size = calc_size(map);
+	center = calc_iso(map, mid_x, mid_y, map->z_arr[mid_y][mid_x]);
+	map->offset_w = WIN_W / 2 - center.x;
+	map->offset_h = WIN_H / 2 - center.y;
 }
