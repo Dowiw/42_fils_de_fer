@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   calc_angles.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kmonjard <kmonjard@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/25 08:25:48 by kmonjard          #+#    #+#             */
+/*   Updated: 2025/09/25 08:26:05 by kmonjard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fils_de_fer.h"
 
 /**
@@ -70,19 +82,23 @@ static void	calc_rotations(t_map *map, double *x, double *y, double *z)
 t_pixel	calc_iso(t_map *map, int x, int y, int z)
 {
 	t_pixel	p;
-	double	final_x;
-	double	final_y;
-	double	x_flt;
-	double	y_flt;
-	double	z_flt;
+	double	offset[2];
+	double	x_d;
+	double	y_d;
+	double	z_d;
 
-	x_flt = (double)x;
-	y_flt = (double)y;
-	z_flt = (double)z * map->z_scale;
-	calc_rotations(map, &x_flt, &y_flt, &z_flt);
-	final_x = (x_flt - y_flt) * cos(map->angle);
-	final_y = -z_flt + (x_flt + y_flt) * sin(map->angle);
-	p.x = (int)(final_x * map->map_scale + WIN_W / 2);
-	p.y = (int)(final_y * map->map_scale + WIN_H / 2);
+	x_d = (double)x;
+	y_d = (double)y;
+	z_d = (double)z * map->z_scale;
+	offset[0] = map->offset_w;
+	offset[1] = map->offset_h;
+	calc_rotations(map, &x_d, &y_d, &z_d);
+	p.x = (int)(((x_d - y_d) * cos(map->view)) * map->size + offset[0]);
+	p.y = (int)((-z_d + (x_d + y_d) * sin(map->view)) * map->size + offset[1]);
+	if (map->orth_view)
+	{
+		p.x = x_d * map->size + offset[0];
+		p.y = y_d * map->size + offset[1];
+	}
 	return (p);
 }
