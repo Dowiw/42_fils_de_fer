@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   allocate.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kmonjard <kmonjard@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/25 08:24:53 by kmonjard          #+#    #+#             */
+/*   Updated: 2025/09/25 08:24:56 by kmonjard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fils_de_fer.h"
+#include "libft.h"
 
 /**
  * - Allocates colors array
@@ -63,4 +76,19 @@ int	allocate_and_input(int file_fd, t_map *map)
 		i++;
 	}
 	return (allocate_colors(map) + input_points(file_fd, map));
+}
+
+/**
+ * - Parses the data points into the respective point
+ */
+void	put_datapoint(t_map *map, char *token, int row, int col)
+{
+	char	*after_z;
+
+	map->z_arr[row][col] = ft_atoi(token);
+	after_z = ft_strchr(token, ',');
+	if (after_z++)
+		map->colors[row][col] = ft_strtol_hex(after_z);
+	else
+		map->colors[row][col] = 0xFFFFFF;
 }
