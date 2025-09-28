@@ -45,6 +45,15 @@ typedef enum e_event
 	EVENT_DESTROY = 17
 }	t_event;
 
+typedef enum e_viewmode
+{
+	MODE_ISOMETRIC = 0,
+	MODE_Z_AXIS = 1,
+	MODE_Y_AXIS = 2,
+	MODE_X_AXIS = 3,
+	MODE_CONIC = 4
+}	t_viewmode;
+
 /**
  * - Structure for a pixel
  *
@@ -62,13 +71,14 @@ typedef struct s_pixel
 /**
  * - Structure for the map, rotations, offsets, views
  *
+ * @param viewmode boolean of views (0 = iso, 1 = z, 2 = y, 3 = x, 4 = conic)
  * @param width map's width
  * @param height map's height
  * @param z_arr array of z values from the map
  * @param colors array of colors for each respective point
  * @param offset_w offset from the width of the window
  * @param offset_h offset from the height of the window
- * @param view the initial viewing angle (set to M_PI / 6 by default)
+ * @param view the initial angle of interest (set to M_PI / 6 by default)
  * @param size the scale of which to render the map
  * @param z_scale the magnitude of the z value
  * @param rot_x angle of rotation for x
@@ -77,7 +87,7 @@ typedef struct s_pixel
  */
 typedef struct s_map
 {
-	int		orth_view;
+	int		viewmode;
 	int		width;
 	int		height;
 	int		**z_arr;
@@ -147,13 +157,20 @@ void	draw_bresenham_line(t_mlx *mlx, t_pixel start, t_pixel end);
 
 double	calc_size(t_map *map);
 
+// calc_view.c
+
+t_pixel do_iso_view(t_map *map, double *x, double *y, double *z);
+t_pixel do_x_view(t_map *map, double *y, double *z);
+t_pixel do_y_view(t_map *map, double *x, double *z);
+t_pixel do_z_view(t_map *map, double *x, double *y);
+// t_pixel do_conic_view(t_map *map, double *x, double *y, double *z);
+
 // color.c
 
 int		interpolate_color(int color1, int color2, double ratio);
 
 // events_keys,c
 
-int		key_release(int keycode, t_fdf_data *data);
 int		key_press(int keycode, t_fdf_data *data);
 int		loop_hook(t_fdf_data *data);
 
@@ -179,6 +196,10 @@ void	init_map(t_map *map);
 void	init_mlx(t_mlx *mlx);
 void	init_angles(t_map *map);
 
+// menu.c
+
+void	draw_menu(t_mlx *mlx, t_map *map);
+
 // parse_map.c
 
 int		is_valid_format(char *filepath);
@@ -187,8 +208,9 @@ int		parse_map(char *filepath, t_map *map);
 
 // redraw.c
 
-void	redraw_iso(t_fdf_data *data);
+void	redraw(t_fdf_data *data);
+void	reset(t_fdf_data *data);
 void	draw_plan_view(t_fdf_data *data);
-void	centralize(t_fdf_data *data);
+void	centralize(t_map *map);
 
 #endif

@@ -49,6 +49,7 @@ static void	calc_iso_size(t_map *map, double min[2], double max[2])
 
 /**
  * - Calculate the size dynamically
+ * - Only for initial size
  */
 double	calc_size(t_map *map)
 {

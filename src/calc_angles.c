@@ -58,7 +58,7 @@ static void	rotate_z(t_map *map, double *x, double *y)
  * - Rotation calculations based on the rotation matrices
  * - NOTE: https://en.wikipedia.org/wiki/Rotation_matrix
  * - EXPLANATION: using matrix multiplication, one can combine all angles of
- * 	a 3D point for it to be moved by some angle theta.
+ * 	a 3D point for it to be transformed by some angle theta.
  */
 static void	calc_rotations(t_map *map, double *x, double *y, double *z)
 {
@@ -68,11 +68,7 @@ static void	calc_rotations(t_map *map, double *x, double *y, double *z)
 }
 
 /**
- * - EXPLANATION: to calculate the 2d perspective of a 3d point using isometry,
- * 	one must first calculate the rotations it takes to move the point into
- * 	isometric view. In this case, I use M_PI / 6 which is 30 degrees in both
- * 	the x-axis and y-axis (z-combined). In a real isometric view, the degrees
- *  are actually 45 in x and 35.56... in z but 30 is enough for me to use.
+ * - Calculate the views of each renderable perspective
  *
  * @param x the abscissa
  * @param y the ordinate
@@ -81,8 +77,6 @@ static void	calc_rotations(t_map *map, double *x, double *y, double *z)
  */
 t_pixel	calc_iso(t_map *map, int x, int y, int z)
 {
-	t_pixel	p;
-	double	offset[2];
 	double	x_d;
 	double	y_d;
 	double	z_d;
@@ -90,15 +84,16 @@ t_pixel	calc_iso(t_map *map, int x, int y, int z)
 	x_d = (double)x;
 	y_d = (double)y;
 	z_d = (double)z * map->z_scale;
-	offset[0] = map->offset_w;
-	offset[1] = map->offset_h;
 	calc_rotations(map, &x_d, &y_d, &z_d);
-	p.x = (int)(((x_d - y_d) * cos(map->view)) * map->size + offset[0]);
-	p.y = (int)((-z_d + (x_d + y_d) * sin(map->view)) * map->size + offset[1]);
-	if (map->orth_view)
-	{
-		p.x = x_d * map->size + offset[0];
-		p.y = y_d * map->size + offset[1];
-	}
-	return (p);
+	if (map->viewmode == MODE_ISOMETRIC)
+		return (do_iso_view(map, &x_d, &y_d, &z_d));
+	else if (map->viewmode == MODE_Z_AXIS)
+		return (do_z_view(map, &x_d, &y_d));
+	else if (map->viewmode == MODE_X_AXIS)
+		return (do_x_view(map, &y_d, &z_d));
+	else if (map->viewmode == MODE_Y_AXIS)
+		return (do_y_view(map, &x_d, &z_d));
+	// else if (map->viewmode == MODE_CONIC)
+	// 	return (do_conic_view(map, &x_d, &y_d, &z_d));
+	return (do_iso_view(map, &x_d, &y_d, &z_d));
 }

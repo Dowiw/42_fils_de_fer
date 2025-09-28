@@ -12,10 +12,16 @@
 
 #include "fils_de_fer.h"
 
+void	redraw(t_fdf_data *data)
+{
+	clear_image(&data->mlx);
+	draw_map(data);
+}
+
 /**
  * - Draw the isometric view again
  */
-void	redraw_iso(t_fdf_data *data)
+void	reset(t_fdf_data *data)
 {
 	data->map.rot_x = 0.0;
 	data->map.rot_y = 0.0;
@@ -37,17 +43,17 @@ void	draw_plan_view(t_fdf_data *data)
 /**
  * - Find central pixel and put it in the center of the map
  */
-void	centralize(t_fdf_data *data)
+void	centralize(t_map *map)
 {
 	int		mid_x;
 	int		mid_y;
 	t_pixel	center;
 
-	data->map.offset_w = 0.0;
-	data->map.offset_h = 0.0;
-	mid_x = (data->map.width - 1) / 2;
-	mid_y = (data->map.height - 1) / 2;
-	center = calc_iso(&data->map, mid_x, mid_y, data->map.z_arr[mid_y][mid_x]);
-	data->map.offset_w = WIN_W / 2 - center.x;
-	data->map.offset_h = WIN_H / 2 - center.y;
+	map->offset_w = 0.0;
+	map->offset_h = 0.0;
+	mid_x = (map->width - 1) / 2;
+	mid_y = (map->height - 1) / 2;
+	center = calc_iso(map, mid_x, mid_y, map->z_arr[mid_y][mid_x]);
+	map->offset_w = WIN_W / 2 - center.x;
+	map->offset_h = WIN_H / 2 - center.y;
 }

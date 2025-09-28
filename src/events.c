@@ -40,6 +40,4 @@ void	init_mlx_events(t_fdf_data *data)
 	mlx_hook(data->mlx.win_ptr, EVENT_DESTROY, 0, handle_close, data);
 	mlx_hook(data->mlx.win_ptr, EVENT_EXPOSE, 1L << 15, expose_handler, data);
 	mlx_hook(data->mlx.win_ptr, EVENT_KEY_PRESS, 1L << 0, key_press, data);
-	mlx_hook(data->mlx.win_ptr, EVENT_KEY_RELEASE, 1L << 1, key_release, data);
-	mlx_loop_hook(data->mlx.mlx_ptr, loop_hook, data);
 }

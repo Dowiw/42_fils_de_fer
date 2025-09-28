@@ -17,7 +17,7 @@
  */
 void	init_map(t_map *map)
 {
-	map->orth_view = 0;
+	map->viewmode = MODE_ISOMETRIC;
 	map->height = 0;
 	map->width = 0;
 	map->z_arr = NULL;
@@ -103,8 +103,9 @@ int	init_mlx_lib(t_mlx *mlx, t_fdf_data *data)
 }
 
 /**
- * - Initializes and calculates the angles for each perspective
+ * - Initializes and calculates the angles for isometric view
  * - pi / 6 being 30 degrees
+ * - Also centralizes it beforehand
  */
 void	init_angles(t_map *map)
 {
@@ -114,6 +115,7 @@ void	init_angles(t_map *map)
 
 	mid_x = (map->width - 1) / 2;
 	mid_y = (map->height - 1) / 2;
+	map->viewmode = MODE_ISOMETRIC;
 	map->view = M_PI / 6;
 	map->offset_h = 0;
 	map->offset_w = 0;
