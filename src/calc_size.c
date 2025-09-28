@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <float.h>
 #include "fils_de_fer.h"
 
 /**
@@ -55,10 +54,11 @@ double	calc_size(t_map *map)
 {
 	double	min[2];
 	double	max[2];
-	double	margin = 0.6;
+	double	margin;
 	double	scale_x;
 	double	scale_y;
 
+	margin = 0.6;
 	min[0] = 1.79769313486231570e+308;
 	min[1] = 1.79769313486231570e+308;
 	max[0] = -1.79769313486231570e+308;
@@ -66,5 +66,8 @@ double	calc_size(t_map *map)
 	calc_iso_size(map, min, max);
 	scale_x = (WIN_W * margin) / (max[0] - min[0]);
 	scale_y = (WIN_H * margin) / (max[1] - min[1]);
-	return (scale_x < scale_y ? scale_x : scale_y);
+	if (scale_x < scale_y)
+		return (scale_x);
+	else
+		return (scale_y);
 }
