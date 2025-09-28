@@ -22,7 +22,8 @@ MLX_FLAGS = -I$(MLX_DIR) -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lbsd
 
 C_FILES = main.c allocate.c events.c \
 		free.c graphics.c initializers.c parse_map.c \
-		calc_angles.c calc_line.c
+		calc_angles.c calc_line.c calc_size.c color.c \
+		redraw.c events_keys.c
 
 SRC = $(addprefix $(SRC_DIR)/, $(C_FILES))
 
