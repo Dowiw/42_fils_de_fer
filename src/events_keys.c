@@ -13,6 +13,22 @@
 #include "fils_de_fer.h"
 #include <mlx.h>
 
+static void	do_view_changes(int keycode, t_fdf_data *data)
+{
+	if (keycode == XK_1)
+		data->map.viewmode = MODE_ISOMETRIC;
+	else if (keycode == XK_2)
+		data->map.viewmode = MODE_Z_AXIS;
+	else if (keycode == XK_3)
+		data->map.viewmode = MODE_X_AXIS;
+	else if (keycode == XK_4)
+		data->map.viewmode = MODE_Y_AXIS;
+	else if (keycode == XK_5)
+		data->map.viewmode = MODE_TWO_POINT;
+	centralize(&data->map);
+	redraw(data);
+}
+
 /**
  * - More key pressing hooks
  */
@@ -30,19 +46,16 @@ static void	more_key_press(int keycode, t_fdf_data *data)
 		data->map.size -= 1.0;
 	else if (keycode == XK_equal)
 		data->map.size += 1.0;
-	else if (keycode == XK_1)
-		data->map.viewmode = MODE_ISOMETRIC;
-	else if (keycode == XK_2)
-		data->map.viewmode = MODE_Z_AXIS;
-	else if (keycode == XK_3)
-		data->map.viewmode = MODE_X_AXIS;
-	else if (keycode == XK_4)
-		data->map.viewmode = MODE_Y_AXIS;
-	else if (keycode == XK_5)
-		data->map.viewmode = MODE_CONIC;
 	else if (keycode == XK_c)
 		centralize(&data->map);
-	redraw(data);
+	if (keycode == XK_1
+		|| keycode == XK_2
+		|| keycode == XK_3
+		|| keycode == XK_4
+		|| keycode == XK_5)
+		do_view_changes(keycode, data);
+	else
+		redraw(data);
 }
 
 /**

@@ -74,6 +74,8 @@ static void	calc_rotations(t_map *map, double *x, double *y, double *z)
  * @param y the ordinate
  * @param z the altitude
  * @param map data of rotations, scaling and offset
+ *
+ * - Does isometric view by default
  */
 t_pixel	calc_iso(t_map *map, int x, int y, int z)
 {
@@ -93,7 +95,7 @@ t_pixel	calc_iso(t_map *map, int x, int y, int z)
 		return (do_x_view(map, &y_d, &z_d));
 	else if (map->viewmode == MODE_Y_AXIS)
 		return (do_y_view(map, &x_d, &z_d));
-	// else if (map->viewmode == MODE_CONIC)
-	// 	return (do_conic_view(map, &x_d, &y_d, &z_d));
+	else if (map->viewmode == MODE_TWO_POINT)
+		return (do_two_point(map, &x_d, &y_d, &z_d));
 	return (do_iso_view(map, &x_d, &y_d, &z_d));
 }
