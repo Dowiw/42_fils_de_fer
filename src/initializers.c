@@ -45,10 +45,7 @@ void	init_mlx(t_mlx *mlx)
 	mlx->bpp = 0;
 	mlx->endian = 0;
 	mlx->size_line = 0;
-	mlx->pan_down = 0;
-	mlx->pan_left = 0;
-	mlx->pan_right = 0;
-	mlx->pan_up = 0;
+	init_details(mlx->details);
 }
 
 /**

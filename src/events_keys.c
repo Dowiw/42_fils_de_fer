@@ -13,6 +13,9 @@
 #include "fils_de_fer.h"
 #include <mlx.h>
 
+/**
+ * - Centralizes view and redraws per passed key
+ */
 static void	do_view_changes(int keycode, t_fdf_data *data)
 {
 	if (keycode == XK_1)

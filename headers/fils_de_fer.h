@@ -51,7 +51,7 @@ typedef enum e_viewmode
 	MODE_Z_AXIS = 1,
 	MODE_Y_AXIS = 2,
 	MODE_X_AXIS = 3,
-	MODE_CONIC = 4
+	MODE_TWO_POINT = 4
 }	t_viewmode;
 
 /**
@@ -118,14 +118,11 @@ typedef struct s_mlx
 	void	*mlx_ptr;
 	void	*win_ptr;
 	void	*img_ptr;
+	char	*details[23];
 	char	*img_data;
 	int		bpp;
 	int		size_line;
 	int		endian;
-	int		pan_left;
-	int		pan_right;
-	int		pan_up;
-	int		pan_down;
 }			t_mlx;
 
 // structure for fdf data
@@ -163,7 +160,7 @@ t_pixel do_iso_view(t_map *map, double *x, double *y, double *z);
 t_pixel do_x_view(t_map *map, double *y, double *z);
 t_pixel do_y_view(t_map *map, double *x, double *z);
 t_pixel do_z_view(t_map *map, double *x, double *y);
-// t_pixel do_conic_view(t_map *map, double *x, double *y, double *z);
+t_pixel do_two_point(t_map *map, double *x, double *y, double *z);
 
 // color.c
 
@@ -198,6 +195,7 @@ void	init_angles(t_map *map);
 
 // menu.c
 
+void	init_details(char *details[23]);
 void	draw_menu(t_mlx *mlx, t_map *map);
 
 // parse_map.c

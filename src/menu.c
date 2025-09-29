@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   menu.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kmonjard <kmonjard@student.42berlin.d      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/28 19:49:59 by kmonjard          #+#    #+#             */
+/*   Updated: 2025/09/28 19:50:01 by kmonjard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fils_de_fer.h"
 
 /**
@@ -17,8 +29,37 @@ static char	*find_viewpoint(t_map *map)
 		return ("Y-Axis View");
 	else if (map->viewmode == MODE_X_AXIS)
 		return ("X-Axis View");
+	else if (map->viewmode == MODE_TWO_POINT)
+		return ("2-point central perspective");
 	else
-		return ("Isometric View");
+		return ("N/A");
+}
+
+void	init_details(char *details[23])
+{
+	details[0] = "Fils de Fer by kmonjard :)";
+	details[1] = "View mode:";
+	details[2] = "";
+	details[3] = "How to use:";
+	details[4] = "c : centralize";
+	details[5] = "r : reset";
+	details[6] = "w s  : rotate x-axis (pitch)";
+	details[7] = "a d  : rotate y-axis (roll)";
+	details[8] = "up down : z-magnitude control";
+	details[9] = "left right : rotate z-axis (yaw)";
+	details[10] = "t g f h : translate map";
+	details[11] = "- : scale down map";
+	details[12] = "= : scale up map";
+	details[13] = "1 : isometric mode";
+	details[14] = "2 : orthrographic plan mode";
+	details[15] = "3 : X-axis mode";
+	details[16] = "4 : Y-axis mode";
+	details[17] = "5 : 2-point perspective";
+	details[18] = "";
+	details[19] = "Notes:";
+	details[20] = "- Rotation values persist in all modes";
+	details[21] = "- Z-magnitude persist";
+	details[22] = NULL;
 }
 
 /**
@@ -29,17 +70,18 @@ static char	*find_viewpoint(t_map *map)
  */
 void	draw_menu(t_mlx *mlx, t_map *map)
 {
-	char	*intro;
-	char	*view;
+	int		j;
+	int		i;
 	char	*viewpoint;
-	char	*how;
 
-	intro = "Fils de Fer by kmonjard :)";
-	view = "View mode: ";
+	j = 0;
+	i = 50;
 	viewpoint = find_viewpoint(map);
-	how = "How to use: ";
-	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 50, 50, 0xFFFFFF, intro);
-	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 50, 100, 0xFFFFFF, view);
-	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 150, 100, 0xFFFFFF, viewpoint);
-	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 150, 100, 0xFFFFFF, how);
+	while (i < WIN_H && mlx->details[j] != NULL)
+	{
+		mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 50, i, 0xFFFFFF, mlx->details[j]);
+		j++;
+		i += 20;
+	}
+	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 150, 70, 0xFFFFFF, viewpoint);
 }
