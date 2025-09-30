@@ -62,9 +62,9 @@ static void	more_key_press(int keycode, t_fdf_data *data)
 }
 
 /**
- * - Handles key pressed
+ * - Handles key pressed for bonus
  */
-int	key_press(int keycode, t_fdf_data *data)
+void	key_press(int keycode, t_fdf_data *data)
 {
 	if (keycode == XK_t)
 		data->map.offset_h -= 5.0;
@@ -74,11 +74,6 @@ int	key_press(int keycode, t_fdf_data *data)
 		data->map.offset_w -= 5.0;
 	else if (keycode == XK_h)
 		data->map.offset_w += 5.0;
-	else if (keycode == XK_Escape)
-	{
-		free_data(data);
-		exit(EXIT_SUCCESS);
-	}
 	else if (keycode == XK_Down)
 		data->map.z_scale -= 0.1;
 	else if (keycode == XK_Up)
@@ -90,5 +85,20 @@ int	key_press(int keycode, t_fdf_data *data)
 	else if (keycode == XK_r)
 		reset(data);
 	more_key_press(keycode, data);
+}
+
+/**
+ * - For no bonus
+ * - Will check for bonus boolean
+ */
+int	mandatory_keys(int keycode, t_fdf_data *data)
+{
+	if (keycode == XK_Escape)
+	{
+		free_data(data);
+		exit(EXIT_SUCCESS);
+	}
+	if (data->bonus)
+		key_press(keycode, data);
 	return (0);
 }

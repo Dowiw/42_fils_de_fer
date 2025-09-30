@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kmonjard <kmonjard@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,12 +11,16 @@
 /* ************************************************************************** */
 
 #include "fils_de_fer.h"
+#include "libft.h"
 
+/**
+ * - Main (assumes maps are in correct format)
+ */
 int	main(int ac, char **av)
 {
 	t_fdf_data	data;
 
-	data.bonus = false;
+	data.bonus = true;
 	if (ac != 2 || !is_valid_format(av[1]))
 		return (write(2, "Usage: ./fdf <valid file in .fdf format>\n", 42), 1);
 	if (!parse_map(av[1], &data.map))

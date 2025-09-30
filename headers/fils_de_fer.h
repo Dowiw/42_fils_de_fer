@@ -25,6 +25,8 @@
 
 #include <stdlib.h>
 
+#include <stdbool.h>
+
 #include <fcntl.h> // open, read,
 
 #include <stdio.h>
@@ -128,6 +130,7 @@ typedef struct s_mlx
 // structure for fdf data
 typedef struct s_fdf_data
 {
+	bool	bonus;
 	t_mlx	mlx;
 	t_map	map;
 }			t_fdf_data;
@@ -168,8 +171,7 @@ int		interpolate_color(int color1, int color2, double ratio);
 
 // events_keys,c
 
-int		key_press(int keycode, t_fdf_data *data);
-int		loop_hook(t_fdf_data *data);
+int		mandatory_keys(int keycode, t_fdf_data *data);
 
 // events.c
 

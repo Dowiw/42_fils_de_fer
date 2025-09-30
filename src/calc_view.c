@@ -40,8 +40,8 @@ t_pixel do_two_point(t_map *map, double *x, double *y, double *z)
 	double focal_length = 500.0;
 	double d = 10.0;
 	double camera_tilt = 0.3; // radians, adjust for desired tilt
-	double offset_x = map->offset_w + 100; // shift right
-	double offset_y = map->offset_h - 50;  // shift up
+	double offset_x = map->offset_w; // shift right
+	double offset_y = map->offset_h;  // shift up
 	t_pixel p;
 
 	// Tilt camera downward

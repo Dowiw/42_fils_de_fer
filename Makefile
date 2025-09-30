@@ -20,14 +20,21 @@ LIBFT = $(SRC_DIR)/libft/libft.a
 MLX_DIR = ./mlx
 MLX_FLAGS = -I$(MLX_DIR) -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lbsd
 
-C_FILES = main.c allocate.c events.c \
+C_FILES = main.c allocate.c events.c free.c \
+		graphics.c initializers.c parse_map.c \
+		calc_angles.c calc_line.c calc_size.c color.c \
+		redraw.c events_keys.c menu.c calc_view.c
+
+C_BONUS = main_bonus.c allocate.c events.c \
 		free.c graphics.c initializers.c parse_map.c \
 		calc_angles.c calc_line.c calc_size.c color.c \
 		redraw.c events_keys.c menu.c calc_view.c
 
 SRC = $(addprefix $(SRC_DIR)/, $(C_FILES))
+SRC_BONUS = $(addprefix $(SRC_DIR)/, $(C_BONUS))
 
 OBJ = $(SRC:.c=.o)
+O_BONUS = $(SRC_BONUS:.c=.o)
 
 INCLUDES = ./headers
 
@@ -44,17 +51,20 @@ $(NAME): $(OBJ)
 	@echo "Compiling $<..."
 	@$(CC) $(C_FLAGS) -c $< -o $@ -I$(INCLUDES) -I$(MLX_DIR)
 
+bonus: $(LIBFT) $(O_BONUS)
+	@$(CC) $(C_FLAGS) $(O_BONUS) $(LIBFT) -o $(NAME) $(MLX_FLAGS)
+
 clean:
 	@make -C ./src/libft clean
 	@echo "Deleting object files in fdf..."
-	@rm -f $(OBJ)
+	@rm -f $(OBJ) $(O_BONUS)
 
 fclean:
 	@make -C ./src/libft fclean
 	@echo "Deleting object files in fdf..."
 	@echo "Deleting all binaries in fdf..."
 	@rm -f $(NAME)
-	@rm -f $(OBJ)
+	@rm -f $(OBJ) $(O_BONUS)
 
 re: fclean all
 
