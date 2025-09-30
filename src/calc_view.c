@@ -35,7 +35,13 @@ t_pixel	do_iso_view(t_map *map, double *x, double *y, double *z)
 
 /**
  * - Do a two point perspective rendering
- * - How
+ *
+ * EXPLANATION:
+ * - f is the focal length which determines how close the points are among
+ *  each other.
+ * - d is the distance of the camera from the y axis
+ * - big reason why z is negative is because the 2d.y is rendered from top-left
+ * 	to bottom-left
  */
 t_pixel	do_two_point(t_map *map, double *x, double *y, double *z)
 {
