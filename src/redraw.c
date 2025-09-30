@@ -53,7 +53,7 @@ void	centralize(t_map *map)
 	map->offset_h = 0.0;
 	mid_x = (map->width - 1) / 2;
 	mid_y = (map->height - 1) / 2;
-	center = calc_iso(map, mid_x, mid_y, map->z_arr[mid_y][mid_x]);
+	center = calc_view(map, mid_x, mid_y, map->z_arr[mid_y][mid_x]);
 	map->offset_w = WIN_W / 2 - center.x;
 	map->offset_h = WIN_H / 2 - center.y;
 }

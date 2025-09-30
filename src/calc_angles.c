@@ -78,7 +78,7 @@ static void	calc_rotations(t_map *map, double *x, double *y, double *z)
  *
  * - Does isometric view by default
  */
-t_pixel	calc_iso(t_map *map, int x, int y, int z)
+t_pixel	calc_view(t_map *map, int x, int y, int z)
 {
 	double	x_d;
 	double	y_d;

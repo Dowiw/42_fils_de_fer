@@ -57,17 +57,17 @@ static void	draw_points_and_lines(t_map *map, t_mlx *mlx, int row, int col)
 	t_pixel	point_right;
 	t_pixel	point_down;
 
-	point = calc_iso(map, col, row, map->z_arr[row][col]);
+	point = calc_view(map, col, row, map->z_arr[row][col]);
 	point.color = map->colors[row][col];
 	if (col + 1 < map->width)
 	{
-		point_right = calc_iso(map, col + 1, row, map->z_arr[row][col + 1]);
+		point_right = calc_view(map, col + 1, row, map->z_arr[row][col + 1]);
 		point_right.color = map->colors[row][col + 1];
 		draw_bresenham_line(mlx, point, point_right);
 	}
 	if (row + 1 < map->height)
 	{
-		point_down = calc_iso(map, col, row + 1, map->z_arr[row + 1][col]);
+		point_down = calc_view(map, col, row + 1, map->z_arr[row + 1][col]);
 		point_down.color = map->colors[row + 1][col];
 		draw_bresenham_line(mlx, point, point_down);
 	}

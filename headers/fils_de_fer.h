@@ -132,7 +132,7 @@ void	put_datapoint(t_map *map, char *token, int row, int col);
 
 // calc_angles.c
 
-t_pixel	calc_iso(t_map *map_data, int x, int y, int z);
+t_pixel	calc_view(t_map *map_data, int x, int y, int z);
 
 // calc_line.c
 

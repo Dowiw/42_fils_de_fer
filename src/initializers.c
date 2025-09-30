@@ -121,7 +121,7 @@ void	init_angles(t_map *map)
 	map->offset_w = 0;
 	map->size = 1.0;
 	map->size = calc_size(map);
-	center = calc_iso(map, mid_x, mid_y, map->z_arr[mid_y][mid_x]);
+	center = calc_view(map, mid_x, mid_y, map->z_arr[mid_y][mid_x]);
 	map->offset_w = WIN_W / 2 - center.x;
 	map->offset_h = WIN_H / 2 - center.y;
 }

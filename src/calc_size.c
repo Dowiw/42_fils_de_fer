@@ -32,7 +32,7 @@ static void	calc_iso_size(t_map *map, double min[2], double max[2])
 		x = 0;
 		while (x < map->width)
 		{
-			p = calc_iso(map, x, y, map->z_arr[y][x]);
+			p = calc_view(map, x, y, map->z_arr[y][x]);
 			if (p.x < min[0])
 				min[0] = (double)p.x;
 			if (p.x > max[0])
