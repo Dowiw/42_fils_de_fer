@@ -75,15 +75,19 @@ void	draw_menu(t_mlx *mlx, t_map *map)
 	int		j;
 	int		i;
 	char	*viewpoint;
+	void	*win_ptr;
+	void	*mlx_ptr;
 
 	j = 0;
 	i = 50;
+	win_ptr = mlx->win_ptr;
+	mlx_ptr = mlx->mlx_ptr;
 	viewpoint = find_viewpoint(map);
 	while (i < WIN_H && mlx->details[j] != NULL)
 	{
-		mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 50, i, 0xFFFFFF, mlx->details[j]);
+		mlx_string_put(mlx_ptr, win_ptr, 50, i, 0xFFFFFF, mlx->details[j]);
 		j++;
 		i += 20;
 	}
-	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 150, 70, 0xFFFFFF, viewpoint);
+	mlx_string_put(mlx_ptr, win_ptr, 150, 70, 0xFFFFFF, viewpoint);
 }

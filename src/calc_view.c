@@ -12,6 +12,7 @@
 
 #include "fils_de_fer.h"
 #include <math.h>
+#include <stdio.h>
 
 /**
 * - EXPLANATION: to calculate the 2d perspective of a 3d point using isometry,
@@ -36,23 +37,21 @@ t_pixel	do_iso_view(t_map *map, double *x, double *y, double *z)
  * - Do a two point perspective rendering
  * - How
  */
-t_pixel do_two_point(t_map *map, double *x, double *y, double *z)
+t_pixel	do_two_point(t_map *map, double *x, double *y, double *z)
 {
-	double focal_length = 500.0;
-	double d = 10.0;
-	double camera_tilt = 0.3; // radians, adjust for desired tilt
-	double offset_x = map->offset_w; // shift right
-	double offset_y = map->offset_h;  // shift up
-	t_pixel p;
+	double	dnom;
+	double	f;
+	double	d;
+	t_pixel	p;
 
-	// Tilt camera downward
-	double z_tilted = *z * cos(camera_tilt) + *y * sin(camera_tilt);
-
-	double denom = *y + d;
-	if (denom < 1.0) denom = 1.0; // or another small positive value
-	p.x = (int)(focal_length * (*x) / denom + offset_x);
-	p.y = (int)(focal_length * (-z_tilted) / denom + offset_y);
-	return p;
+	f = 500.0;
+	d = 10.0;
+	dnom = *y + d;
+	if (dnom < 1.0)
+		dnom = 1.0;
+	p.x = (int)(f * (*x + 1.0) / dnom + map->offset_w);
+	p.y = (int)(f * (-(*z * cos(0.3) + *y * sin(0.3))) / dnom + map->offset_w);
+	return (p);
 }
 
 t_pixel	do_x_view(t_map *map, double *y, double *z)
