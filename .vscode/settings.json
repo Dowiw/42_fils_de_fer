@@ -27,6 +27,7 @@
 		"*.rexx": "rexx",
 		".env*": "dotenv",
 		"fils_de_fer.h": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"keysymdef.h": "c"
 	}
 }

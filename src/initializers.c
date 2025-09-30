@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 
 #include "fils_de_fer.h"
+#include <mlx.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 /**
  * - Initializes height and width to 0 and points to NULL

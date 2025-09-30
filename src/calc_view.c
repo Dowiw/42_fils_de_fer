@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "fils_de_fer.h"
+#include <math.h>
 
 /**
 * - EXPLANATION: to calculate the 2d perspective of a 3d point using isometry,

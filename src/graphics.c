@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "fils_de_fer.h"
+#include <mlx.h>
 
 /**
  * - Function to put the pixel into the image buffer

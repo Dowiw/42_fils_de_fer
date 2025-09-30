@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include "fils_de_fer.h"
-#include "libft.h"
+#include <mlx.h>
+#include <unistd.h>
+#include <stdio.h>
 
 /**
  * - Main (assumes maps are in correct format)

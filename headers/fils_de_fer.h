@@ -13,27 +13,14 @@
 #ifndef FILS_DE_FER_H
 # define FILS_DE_FER_H
 
-#include <mlx.h> // minilibx library
+# include <stdbool.h>
 
-#include <math.h> // sin, cos, tan, etc.
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
 
-#include <unistd.h> // write
-
-#include <limits.h> // maxs and mins
-
-#include <X11/keysym.h> // declarations of keys in X11 library
-
-#include <stdlib.h>
-
-#include <stdbool.h>
-
-#include <fcntl.h> // open, read,
-
-#include <stdio.h>
-
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
+# define WIN_W 1920
+# define WIN_H 1080
 
 // enumeration of events that are represented in mlx
 typedef enum e_event
@@ -47,6 +34,7 @@ typedef enum e_event
 	EVENT_DESTROY = 17
 }	t_event;
 
+// enumeration of viewmodes
 typedef enum e_viewmode
 {
 	MODE_ISOMETRIC = 0,
@@ -137,9 +125,6 @@ typedef struct s_fdf_data
 
 // window sizes
 
-#define	WIN_W 1920
-#define	WIN_H 1080
-
 // allocate.c
 
 int		allocate_and_input(int file_fd, t_map *map);
@@ -159,11 +144,11 @@ double	calc_size(t_map *map);
 
 // calc_view.c
 
-t_pixel do_iso_view(t_map *map, double *x, double *y, double *z);
-t_pixel do_x_view(t_map *map, double *y, double *z);
-t_pixel do_y_view(t_map *map, double *x, double *z);
-t_pixel do_z_view(t_map *map, double *x, double *y);
-t_pixel do_two_point(t_map *map, double *x, double *y, double *z);
+t_pixel	do_iso_view(t_map *map, double *x, double *y, double *z);
+t_pixel	do_x_view(t_map *map, double *y, double *z);
+t_pixel	do_y_view(t_map *map, double *x, double *z);
+t_pixel	do_z_view(t_map *map, double *x, double *y);
+t_pixel	do_two_point(t_map *map, double *x, double *y, double *z);
 
 // color.c
 

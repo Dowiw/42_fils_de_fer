@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "fils_de_fer.h"
+#include <math.h>
 
 /**
  * - Calculate rotations in the x-axis

@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "fils_de_fer.h"
+#include <mlx.h>
+#include <stdlib.h>
 
 /**
  * - Frees the allocated arrays inside map

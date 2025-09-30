@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "fils_de_fer.h"
+#include <stdlib.h>
 
 static int	determine_color_low(t_pixel p0, t_pixel p1, t_pixel start_p)
 {

@@ -12,6 +12,8 @@
 
 #include "fils_de_fer.h"
 #include "libft.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 /**
  * - Allocates colors array

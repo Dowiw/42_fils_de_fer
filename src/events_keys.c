@@ -12,6 +12,8 @@
 
 #include "fils_de_fer.h"
 #include <mlx.h>
+#include <stdlib.h>
+#include <X11/keysym.h>
 
 /**
  * - Centralizes view and redraws per passed key

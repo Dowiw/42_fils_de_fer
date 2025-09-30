@@ -12,6 +12,9 @@
 
 #include "fils_de_fer.h"
 #include "libft.h"
+#include <stdlib.h>
+#include <fcntl.h>
+#include <stdio.h>
 
 /**
  * - Checks if av[1] is in valid .fdf format

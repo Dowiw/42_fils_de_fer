@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "fils_de_fer.h"
+#include <mlx.h>
+#include <unistd.h>
 
 /**
  * - Return string of the selected mode

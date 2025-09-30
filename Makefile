@@ -18,6 +18,7 @@ SRC_DIR = ./src
 LIBFT = $(SRC_DIR)/libft/libft.a
 
 MLX_DIR = ./mlx
+MLX_REPO = https://github.com/42paris/minilibx-linux.git
 MLX_FLAGS = -I$(MLX_DIR) -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lbsd
 
 C_FILES = main.c allocate.c events.c free.c \
@@ -39,7 +40,13 @@ O_BONUS = $(SRC_BONUS:.c=.o)
 INCLUDES = ./headers
 
 #  -- Rules  --
-all: $(LIBFT) $(NAME)
+all: $(LIBFT) $(MLX_DIR)/libmlx.a $(NAME)
+
+$(MLX_DIR):
+	git clone $(MLX_REPO) $(MLX_DIR)
+
+$(MLX_DIR)/libmlx.a: $(MLX_DIR)
+	$(MAKE) -C $(MLX_DIR) > /dev/null
 
 $(LIBFT):
 	make -C $(SRC_DIR)/libft/

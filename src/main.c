@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 
 #include "fils_de_fer.h"
+#include <mlx.h>
+#include <unistd.h>
+#include <stdio.h>
 
 int	main(int ac, char **av)
 {
