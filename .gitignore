@@ -1,9 +1,14 @@
 # Directories
 /mlx
 /test
-/42MapGenerator
+/generator
+/maps/dowi
+/image_generator
 
 # Binaries
 fdf
 *.o
 libft.a
+
+# Scripts
+script.py
