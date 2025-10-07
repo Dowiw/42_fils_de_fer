@@ -37,7 +37,7 @@ static char	*find_viewpoint(t_map *map)
 		return ("N/A");
 }
 
-void	init_details(char *details[24])
+void	init_details(char *details[25])
 {
 	details[0] = "Fils de Fer by kmonjard :)";
 	details[1] = "View mode:";
@@ -57,12 +57,13 @@ void	init_details(char *details[24])
 	details[15] = "3 : X-axis mode";
 	details[16] = "4 : Y-axis mode";
 	details[17] = "5 : 2-point perspective";
-	details[18] = "";
-	details[19] = "Notes:";
-	details[20] = "- Rotation values persist in all modes";
-	details[21] = "- Z-magnitude persist";
-	details[22] = "- Zooming is removed for 2-point perspective";
-	details[23] = NULL;
+	details[18] = "left-click: zoom on mouse, right-click: zoom out on mouse";
+	details[19] = "";
+	details[20] = "Notes:";
+	details[21] = "- Rotation values persist in all modes";
+	details[22] = "- Z-magnitude persist";
+	details[23] = "- Zooming is removed for 2-point perspective";
+	details[24] = NULL;
 }
 
 /**
