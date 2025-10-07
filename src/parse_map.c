@@ -63,10 +63,9 @@ int	input_points(int file_fd, t_map *map)
 		while (col < map->width)
 		{
 			put_datapoint(map, tokens[col], row, col);
-			free(tokens[col]);
 			col++;
 		}
-		free(tokens);
+		free_tokens(tokens);
 		free(line);
 		line = get_next_line(file_fd);
 		row++;
