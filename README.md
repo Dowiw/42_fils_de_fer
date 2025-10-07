@@ -8,3 +8,5 @@ https://harm-smits.github.io/42docs/libs/minilibx
 https://youtu.be/p4Iz0XJY-Qk?si=cI7ZTh10sMXKqa3l
 
 Huge thanks to the mapgenerators
+
+TODO: readme

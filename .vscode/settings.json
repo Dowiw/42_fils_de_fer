@@ -28,6 +28,7 @@
 		".env*": "dotenv",
 		"fils_de_fer.h": "c",
 		"libft.h": "c",
-		"keysymdef.h": "c"
+		"keysymdef.h": "c",
+		"time.h": "c"
 	}
 }
