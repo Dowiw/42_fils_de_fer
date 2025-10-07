@@ -108,7 +108,7 @@ typedef struct s_mlx
 	void	*mlx_ptr;
 	void	*win_ptr;
 	void	*img_ptr;
-	char	*details[24];
+	char	*details[25];
 	char	*img_data;
 	int		bpp;
 	int		size_line;
