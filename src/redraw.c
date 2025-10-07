@@ -26,6 +26,7 @@ void	reset(t_fdf_data *data)
 	data->map.rot_x = 0.0;
 	data->map.rot_y = 0.0;
 	data->map.rot_z = 0.0;
+	data->map.z_scale = 1.0;
 	init_angles(&data->map);
 }
 
