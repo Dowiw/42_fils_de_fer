@@ -57,3 +57,16 @@ void	free_data(t_fdf_data *data)
 		free(data->mlx.mlx_ptr);
 	}
 }
+
+/**
+ * - A utility for parsing
+ */
+void	free_tokens(char **tokens)
+{
+	int	i;
+
+	i = 0;
+	while (tokens[i] != NULL)
+		free(tokens[i++]);
+	free(tokens);
+}
