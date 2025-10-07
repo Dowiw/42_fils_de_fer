@@ -37,7 +37,7 @@ static char	*find_viewpoint(t_map *map)
 		return ("N/A");
 }
 
-void	init_details(char *details[23])
+void	init_details(char *details[24])
 {
 	details[0] = "Fils de Fer by kmonjard :)";
 	details[1] = "View mode:";
@@ -61,14 +61,16 @@ void	init_details(char *details[23])
 	details[19] = "Notes:";
 	details[20] = "- Rotation values persist in all modes";
 	details[21] = "- Z-magnitude persist";
-	details[22] = NULL;
+	details[22] = "- Zooming is removed for 2-point perspective";
+	details[23] = NULL;
 }
 
 /**
  * - Drawing strings of texts after the image is rendered.
  * - Unfortunately, knowing where to put the pixels is all about magic numbers.
  * 	Maybe digging into how spaces and indents are formed in Word or Docs could
- * 	help but it will take more time. Maybe in the next graphic project.
+ * 	help but it will take more time.
+ * - Strings are indented for 1080p aspect ratios or more
  */
 void	draw_menu(t_mlx *mlx, t_map *map)
 {
