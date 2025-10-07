@@ -108,7 +108,7 @@ typedef struct s_mlx
 	void	*mlx_ptr;
 	void	*win_ptr;
 	void	*img_ptr;
-	char	*details[23];
+	char	*details[24];
 	char	*img_data;
 	int		bpp;
 	int		size_line;
@@ -158,6 +158,10 @@ int		interpolate_color(int color1, int color2, double ratio);
 
 int		mandatory_keys(int keycode, t_fdf_data *data);
 
+// events_mouse.c
+
+int		handle_mouse(int button, int x, int y, t_fdf_data *data);
+
 // events.c
 
 void	init_mlx_events(t_fdf_data *data);
@@ -166,6 +170,7 @@ void	init_mlx_events(t_fdf_data *data);
 
 void	free_map(t_map *map);
 void	free_data(t_fdf_data *data);
+void	free_tokens(char **tokens);
 
 // graphics.c
 
