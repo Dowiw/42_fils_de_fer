@@ -49,6 +49,8 @@ static void	calc_iso_size(t_map *map, double min[2], double max[2])
 
 /**
  * - Calculate the size dynamically
+ * - Rendering 4by4 with 0 values goes to default
+ * - Smart rendering for large maps (margin 0.5 of screen sizes)
  * - Only for initial size
  */
 double	calc_size(t_map *map)
@@ -59,14 +61,20 @@ double	calc_size(t_map *map)
 	double	scale_x;
 	double	scale_y;
 
-	margin = 0.6;
+	margin = 0.5;
 	min[0] = 1.79769313486231570e+308;
 	min[1] = 1.79769313486231570e+308;
 	max[0] = -1.79769313486231570e+308;
 	max[1] = -1.79769313486231570e+308;
 	calc_iso_size(map, min, max);
-	scale_x = (WIN_W * margin) / (max[0] - min[0]);
-	scale_y = (WIN_H * margin) / (max[1] - min[1]);
+	if ((max[0] == 0 && min[0] == 0) || (max[0] == min[0]))
+		scale_x = WIN_W / 2;
+	else
+		scale_x = (WIN_W * margin) / (max[0] - min[0]);
+	if ((max[1] == 0 && min[1] == 0) || (max[1] == min[1]))
+		scale_y = WIN_H / 2;
+	else
+		scale_y = (WIN_H * margin) / (max[1] - min[1]);
 	if (scale_x < scale_y)
 		return (scale_x);
 	else
