@@ -14,6 +14,12 @@
  * - Interpolate color based on the ratio value given
  * - This link was super helpful:
  *   https://stackoverflow.com/questions/13488957
+ * @param color1    integer containing color as 0x00RRGGBB
+ * @param color2    integer containing color as 0x00RRGGBB
+ * @param ratio  how much interpolation (0..1)
+ * - 0: full color 1
+ * - 1: full color 2
+ * @return the new color after interpolation
  */
 int	interpolate_color(int color1, int color2, double ratio)
 {
