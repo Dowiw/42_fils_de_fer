@@ -186,7 +186,7 @@ void	init_angles(t_map *map);
 
 // menu.c
 
-void	init_details(char *details[23]);
+void	init_details(char *details[25]);
 void	draw_menu(t_mlx *mlx, t_map *map);
 
 // parse_map.c
