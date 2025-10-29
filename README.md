@@ -11,10 +11,15 @@ It envolves learning how to call functions in the [X11 windowing system](https:/
 
 ## Usage
 
+Clone with the generator submodules
+```sh
+git clone --recurse-submodules https://github.com/Dowiw/42_fils_de_fer.git
+```
+
 Tested with:
 - GCC 10.5
 - C17
-- Ubuntu Linux and Windows 11
+- Ubuntu Linux (natively and in Windows 11 WSL)
 
 To compile ```./fdf```:
 ```sh
