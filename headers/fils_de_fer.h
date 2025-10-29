@@ -99,6 +99,7 @@ typedef struct s_map
  * @param win_ptr pointer to the window allocated
  * @param img_ptr pointer to the image buffer
  * @param img_data pointer to the same img but as characters
+ * @param details array of menu item strings
  * @param bpp bits per pixel
  * @param size_line size of each line of pixels
  * @param endian necessary for alignment
@@ -122,8 +123,6 @@ typedef struct s_fdf_data
 	t_mlx	mlx;
 	t_map	map;
 }			t_fdf_data;
-
-// window sizes
 
 // allocate.c
 

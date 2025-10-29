@@ -1,0 +1,6 @@
+[submodule "map_generator"]
+	path = map_generator
+	url = https://github.com/jgigault/42MapGenerator.git
+[submodule "image_generator"]
+	path = image_generator
+	url = https://github.com/ArthurSobreira/map_generator_fdf.git
