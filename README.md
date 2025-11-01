@@ -44,6 +44,9 @@ TODO
 
 ## References & Appreciation
 
+- Huge thanks to **jgigault** for the map_generator. Without the 42MapGenerator project, it becomes very hard to manually parse and turn real geologic data into valid .fdf maps.
+- Thank you to **Arthur Sobreira** as well for the image to fdf map generator. It is very cool to see a couple .jpg and .png images come alive inside the fdf window.
+
 - Thanks to **Oceano** for a [video on MLX](https://www.youtube.com/watch?v=bYS93r6U0zg&t=1379s) that helped introduce the API.
 - To **Pen & Paper Science** for videos on vectors and rotation that helped build intuition for point calculation:
   - [Components](https://www.youtube.com/watch?v=IG462zbaAvQ)
