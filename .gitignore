@@ -4,6 +4,12 @@
 /map_generator
 /maps/dowi
 /image_generator
+/assets/manimations
+
+# Manimation garbage
+/assets/__pycache__
+partial_movie_files
+/assets/media
 
 # Binaries
 fdf
